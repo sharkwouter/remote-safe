@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+skinparam monochrome true
+skinparam linetype polyline
+skinparam packageStyle rectangle
+actor :User: as u
+
+
+rectangle "Remote Safe" {
+	u -- (Authenticate)
+	u -- (Sync files)
+	u -- (See sync status)
+	u -- (Set password)
+	u -- (Create account)
+	u -- (Pick directory)
+	u -- (See encryption key)
+}
+@enduml

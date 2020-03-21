@@ -1,0 +1,17 @@
+@startuml
+object Server
+object User {
+    name
+    password
+}
+object File {
+    original file path
+    file path
+    hash
+}
+
+User -- File : has multiple >
+Server -- User : has multiple  >
+
+@enduml
+

@@ -1,0 +1,30 @@
+@startmindmap
++ Remote Safe
+++ Encryption
++++ GNUPG
++++ OpenSSL
++++ AES
+++ Authentication
++++ Decrypt example
++++ User name
+++ Registration
++++ Unique url/key
+-- GUI
+--- Qt
+--- WxWidgets
+-- Language
+--- Python
+--- Golang
+-- Data
+--- Encrypted files
+--- File structure
+--- Encryption key
+--- Password
+--- User name
+--- Hashes
+---- Prevent double files
+---- sha256
+---- bcrypt with random salt
+--- Modify time
+@endmindmap
+

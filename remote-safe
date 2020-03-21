@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+import os
+import grpc
+from concurrent import futures
+from remote_safe_shared.remotesafe_pb2_grpc import add_syncHandlerServicer_to_server, syncHandlerServicer
+from remote_safe_shared.remotesafe_pb2 import FileList, FileInfo, File
+
+
+SYNC_DIR = os.path.abspath("~/Music")
+
+
+class SyncHandler(syncHandlerServicer):
+    def GetFileList(self, request, context):
+        file_list = FileList()
+        for path in self.__create_file_list(request.path):
+            file_list.append(FileInfo(path=path))
+        return file_list
+
+    def __create_file_list(self, current_directory, start=None):
+        if not start:
+            start = current_directory
+        file_list = []
+        files = os.listdir(current_directory)
+        for file in files:
+            full_path = os.path.join(current_directory, file)
+            if os.path.isfile(full_path):
+                file_list.append(os.path.relpath(full_path, start))
+            if os.path.isdir(full_path):
+                file_list += self.__create_file_list(full_path, start)
+        return file_list
+
+
+server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+add_syncHandlerServicer_to_server(SyncHandler(), server)
+server.add_insecure_port('[::]:50051')
+server.start()
