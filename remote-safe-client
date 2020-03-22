@@ -1,3 +1,15 @@
 #!/usr/bin/env python3
+import os
+import grpc
+from remote_safe_shared.remotesafe_pb2_grpc import syncHandlerStub
+from remote_safe_shared.remotesafe_pb2 import Empty
+
+os.environ['GRPC_VERBOSITY'] = 'debug'
+os.environ['GRPC_TRACE'] = 'all'
+
+with grpc.insecure_channel('localhost:50051') as channel:
+    server = syncHandlerStub(channel)
+    files = server.GetFileList(Empty())
+
 
 

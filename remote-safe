@@ -12,8 +12,9 @@ SYNC_DIR = os.path.abspath("~/Music")
 class SyncHandler(syncHandlerServicer):
     def GetFileList(self, request, context):
         file_list = FileList()
-        for path in self.__create_file_list(request.path):
-            file_list.append(FileInfo(path=path))
+        for file_path in self.__create_file_list(request.path):
+            file_info = file_list.files.add()
+            file_info.path = file_path
         return file_list
 
     def __create_file_list(self, current_directory, start=None):
@@ -32,5 +33,6 @@ class SyncHandler(syncHandlerServicer):
 
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 add_syncHandlerServicer_to_server(SyncHandler(), server)
-server.add_insecure_port('[::]:50051')
+server.add_insecure_port('localhost:50051')
 server.start()
+server.wait_for_termination()

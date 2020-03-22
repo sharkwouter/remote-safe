@@ -17,7 +17,7 @@ class syncHandlerStub(object):
     self.GetFile = channel.unary_unary(
         '/remotesafe.syncHandler/GetFile',
         request_serializer=remotesafe__pb2.FileInfo.SerializeToString,
-        response_deserializer=remotesafe__pb2.File.FromString,
+        response_deserializer=remotesafe__pb2.FileInfo.FromString,
         )
     self.GetFileList = channel.unary_unary(
         '/remotesafe.syncHandler/GetFileList',
@@ -50,7 +50,7 @@ def add_syncHandlerServicer_to_server(servicer, server):
       'GetFile': grpc.unary_unary_rpc_method_handler(
           servicer.GetFile,
           request_deserializer=remotesafe__pb2.FileInfo.FromString,
-          response_serializer=remotesafe__pb2.File.SerializeToString,
+          response_serializer=remotesafe__pb2.FileInfo.SerializeToString,
       ),
       'GetFileList': grpc.unary_unary_rpc_method_handler(
           servicer.GetFileList,
